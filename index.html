@@ -198,7 +198,7 @@
     </div>
 
     <script>
-      console.log('script');
+      // console.log('script');
 
       let currentHighlightedCell = 'cell00';
 
@@ -353,7 +353,7 @@
         let currentCellFound = false;
         for (let i = 0; i < 9; i++) {
           for (let j = 0; j < 9; j++) {
-            console.log({ currentCellFound, i, j, currentHighlightedCell });
+            // console.log({ currentCellFound, i, j, currentHighlightedCell });
             const cell = document.getElementById(`cell${i}${j}`);
 
             if (currentCellFound) {
@@ -390,7 +390,7 @@
       document.getElementsByClassName('wrapper')[0].focus();
       document.addEventListener('keyup', function(event) {
         let keyCode = event.keyCode;
-        console.log({ keyCode });
+        // console.log({ keyCode });
         if (keyCode === 13) {
           shiftFocus();
           return;
