@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sudoku Master</title>
+  </head>
+  <style>
+    body {
+      height: 100vh;
+      width: 100vw;
+      background-color: lightyellow;
+    }
+    .wrapper {
+      width: 100%;
+      height: 100%;
+    }
+
+    table,
+    tr,
+    td {
+      border: 1px solid #d3d3d3;
+      border-collapse: collapse;
+    }
+
+    table {
+      width: 500px;
+      height: 500px;
+      margin: auto;
+    }
+
+    td {
+      text-align: center;
+    }
+
+    td.highlighted {
+      background-color: #000;
+      color: #ffffff;
+    }
+
+    td:nth-of-type(3) {
+      border-right: 1px solid #000000;
+    }
+
+    td:nth-of-type(6) {
+      border-right: 1px solid #000000;
+    }
+
+    td:nth-of-type(9) {
+      border-right: 1px solid #000000;
+    }
+
+    td:nth-of-type(1) {
+      border-left: 1px solid #000000;
+    }
+
+    tr:nth-of-type(1) td {
+      border-top: 1px solid #000000;
+    }
+
+    tr:nth-of-type(3) td {
+      border-bottom: 1px solid #000000;
+    }
+
+    tr:nth-of-type(6) td {
+      border-bottom: 1px solid #000000;
+    }
+
+    tr:nth-of-type(9) td {
+      border-bottom: 1px solid #000000;
+    }
+
+    .buttons {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    button {
+      width: 100px;
+      height: 40px;
+      background-color: #ff5454;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+      color: #ffffff;
+    }
+  </style>
+  <body>
+    <div class="wrapper">
+      <table id="grid">
+        <tbody>
+          <tr>
+            <td id="cell00" class="highlighted">0</td>
+            <td id="cell01">0</td>
+            <td id="cell02">0</td>
+            <td id="cell03">0</td>
+            <td id="cell04">0</td>
+            <td id="cell05">0</td>
+            <td id="cell06">0</td>
+            <td id="cell07">0</td>
+            <td id="cell08">0</td>
+          </tr>
+          <tr>
+            <td id="cell10">0</td>
+            <td id="cell11">0</td>
+            <td id="cell12">0</td>
+            <td id="cell13">0</td>
+            <td id="cell14">0</td>
+            <td id="cell15">0</td>
+            <td id="cell16">0</td>
+            <td id="cell17">0</td>
+            <td id="cell18">0</td>
+          </tr>
+          <tr>
+            <td id="cell20">0</td>
+            <td id="cell21">0</td>
+            <td id="cell22">0</td>
+            <td id="cell23">0</td>
+            <td id="cell24">0</td>
+            <td id="cell25">0</td>
+            <td id="cell26">0</td>
+            <td id="cell27">0</td>
+            <td id="cell28">0</td>
+          </tr>
+          <tr>
+            <td id="cell30">0</td>
+            <td id="cell31">0</td>
+            <td id="cell32">0</td>
+            <td id="cell33">0</td>
+            <td id="cell34">0</td>
+            <td id="cell35">0</td>
+            <td id="cell36">0</td>
+            <td id="cell37">0</td>
+            <td id="cell38">0</td>
+          </tr>
+          <tr>
+            <td id="cell40">0</td>
+            <td id="cell41">0</td>
+            <td id="cell42">0</td>
+            <td id="cell43">0</td>
+            <td id="cell44">0</td>
+            <td id="cell45">0</td>
+            <td id="cell46">0</td>
+            <td id="cell47">0</td>
+            <td id="cell48">0</td>
+          </tr>
+          <tr>
+            <td id="cell50">0</td>
+            <td id="cell51">0</td>
+            <td id="cell52">0</td>
+            <td id="cell53">0</td>
+            <td id="cell54">0</td>
+            <td id="cell55">0</td>
+            <td id="cell56">0</td>
+            <td id="cell57">0</td>
+            <td id="cell58">0</td>
+          </tr>
+          <tr>
+            <td id="cell60">0</td>
+            <td id="cell61">0</td>
+            <td id="cell62">0</td>
+            <td id="cell63">0</td>
+            <td id="cell64">0</td>
+            <td id="cell65">0</td>
+            <td id="cell66">0</td>
+            <td id="cell67">0</td>
+            <td id="cell68">0</td>
+          </tr>
+          <tr>
+            <td id="cell70">0</td>
+            <td id="cell71">0</td>
+            <td id="cell72">0</td>
+            <td id="cell73">0</td>
+            <td id="cell74">0</td>
+            <td id="cell75">0</td>
+            <td id="cell76">0</td>
+            <td id="cell77">0</td>
+            <td id="cell78">0</td>
+          </tr>
+          <tr>
+            <td id="cell80">0</td>
+            <td id="cell81">0</td>
+            <td id="cell82">0</td>
+            <td id="cell83">0</td>
+            <td id="cell84">0</td>
+            <td id="cell85">0</td>
+            <td id="cell86">0</td>
+            <td id="cell87">0</td>
+            <td id="cell88">0</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="buttons">
+        <button id="btn-solve">Solve</button>
+        <button id="btn-reset">Reset</button>
+      </div>
+    </div>
+
+    <script>
+      console.log('script');
+
+      let currentHighlightedCell = 'cell00';
+
+      // checks a given number is possible at a given position
+      // x denotes row number, y denotes column number, n is possible value
+      function isPossible(x, y, n, grid) {
+        // if the cell is not empty at x, y position then we return false
+        if (grid[x][y] !== 0) {
+          return false;
+        }
+
+        // check if n exists in the row already
+        for (let i = 0; i < 9; i++) {
+          if (grid[x][i] === n) {
+            return false;
+          }
+        }
+
+        // check if n exists in the column
+        for (let i = 0; i < 9; i++) {
+          if (grid[i][y] === n) {
+            return false;
+          }
+        }
+
+        // check if n exists in the small 3 x 3 square
+        // row wise lower bound
+        let rlb = Math.floor(x / 3) * 3;
+        let clb = Math.floor(y / 3) * 3;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            if (grid[rlb + i][clb + j] === n) {
+              return false;
+            }
+          }
+        }
+
+        // return true if all 3 validation passed
+        return true;
+      }
+
+      // recursively solves the grid looking at all possibilities one by one
+      function solveGrid(grid) {
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            // check if grid is empty at i, j position
+            if (grid[i][j] === 0) {
+              for (let k = 1; k < 10; k++) {
+                if (isPossible(i, j, k, grid)) {
+                  grid[i][j] = k;
+                  let newGrid = solveGrid(grid);
+                  // if current choice of value k is incorrect
+                  // then subsequent solveGrid function call
+                  // will return false, in that case we nullify
+                  // the current choice and look for other solution
+                  if (newGrid) {
+                    return newGrid;
+                  }
+                  grid[i][j] = 0;
+                }
+              }
+
+              // when no number is possible then return false
+              // so that previous choice can be nullified
+              return false;
+            }
+          }
+        }
+
+        // if no position in the grid is empty then return the grid
+        return grid;
+      }
+
+      function solve() {
+        const grid = [
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ];
+
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            let cell = document.getElementById(`cell${i}${j}`);
+            let val = parseInt(cell.innerText);
+            grid[i][j] = val;
+          }
+        }
+
+        const solvedGrid = solveGrid(grid);
+        if (!solvedGrid) {
+          alert('Unsolvable!');
+          return;
+        }
+
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            let cell = document.getElementById(`cell${i}${j}`);
+            cell.innerText = solvedGrid[i][j];
+          }
+        }
+      }
+
+      function getNumber(keyCode) {
+        if (keyCode === 48) {
+          return 0;
+        }
+
+        if (keyCode === 49) {
+          return 1;
+        }
+
+        if (keyCode === 50) {
+          return 2;
+        }
+
+        if (keyCode === 51) {
+          return 3;
+        }
+
+        if (keyCode === 52) {
+          return 4;
+        }
+
+        if (keyCode === 53) {
+          return 5;
+        }
+
+        if (keyCode === 54) {
+          return 6;
+        }
+
+        if (keyCode === 55) {
+          return 7;
+        }
+
+        if (keyCode === 56) {
+          return 8;
+        }
+
+        if (keyCode === 57) {
+          return 9;
+        }
+      }
+
+      function shiftFocus() {
+        let currentCellFound = false;
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            console.log({ currentCellFound, i, j, currentHighlightedCell });
+            const cell = document.getElementById(`cell${i}${j}`);
+
+            if (currentCellFound) {
+              cell.className = 'highlighted';
+              currentHighlightedCell = cell.id;
+              return;
+            }
+
+            if (cell.id === currentHighlightedCell) {
+              cell.classList.remove('highlighted');
+              currentCellFound = true;
+
+              if (i === 8 && j === 8) {
+                document.getElementById('cell00').className = 'highlighted';
+                currentHighlightedCell = 'cell00';
+              }
+            }
+          }
+        }
+      }
+
+      function updateCell(val) {
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            let cell = document.getElementById(`cell${i}${j}`);
+            if (cell.id === currentHighlightedCell) {
+              cell.innerText = val;
+              shiftFocus();
+            }
+          }
+        }
+      }
+
+      document.getElementsByClassName('wrapper')[0].focus();
+      document.addEventListener('keyup', function(event) {
+        let keyCode = event.keyCode;
+        console.log({ keyCode });
+        if (keyCode === 13) {
+          shiftFocus();
+          return;
+        }
+
+        if (keyCode === 187) {
+          solve();
+          return;
+        }
+
+        let num = getNumber(keyCode);
+        if (num || num === 0) {
+          updateCell(num);
+        }
+      });
+
+      document
+        .getElementById('btn-solve')
+        .addEventListener('click', function() {
+          solve();
+        });
+
+      document
+        .getElementById('btn-reset')
+        .addEventListener('click', function() {
+          for (let i = 0; i < 9; i++) {
+            for (let j = 0; j < 9; j++) {
+              let cell = document.getElementById(`cell${i}${j}`);
+              if (cell.id === currentHighlightedCell) {
+                cell.classList.remove('highlighted');
+              }
+              cell.innerText = 0;
+            }
+          }
+
+          let firstCell = document.getElementById('cell00');
+          firstCell.className = 'highlighted';
+          currentHighlightedCell = 'cell00';
+        });
+    </script>
+  </body>
+</html>
