@@ -1,5 +1,5 @@
 const CACHE_NAME = 'Sudoku_Master';
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v1.0.1';
 const resources = [
   '/sudoku-master/',
   '/sudoku-master/index.html',
