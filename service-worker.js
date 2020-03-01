@@ -1,7 +1,7 @@
 const CACHE_NAME = 'Sudoku_Master';
 const CACHE_VERSION = 'v1.0.0';
 const resources = [
-  '/',
+  '/sudoku-master/',
   '/sudoku-master/index.html',
   '/sudoku-master/manifest.json'
 ];
