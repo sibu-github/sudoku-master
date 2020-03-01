@@ -1,6 +1,10 @@
 const CACHE_NAME = 'Sudoku_Master';
 const CACHE_VERSION = 'v1.0.0';
-const resources = ['/', '/index.html', '/manifest.json'];
+const resources = [
+  '/',
+  '/sudoku-master/index.html',
+  '/sudoku-master/manifest.json'
+];
 
 self.addEventListener('install', function(event) {
   console.log('WORKER: install event in progress.');
