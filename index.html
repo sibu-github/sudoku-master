@@ -80,6 +80,7 @@
       content="/sudoku-master/ms-icon-144x144.png"
     />
     <meta name="theme-color" content="#ffffff" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   </head>
   <style>
     html,
@@ -584,8 +585,29 @@
     // checks for the valid number input only
     function onChangeInput(event) {
       event.preventDefault();
-      if (isNaN(event.target.value) || event.target.value === '0') {
+      let value = event.target.value;
+      if (isNaN(value) || parseInt(value, 10) > 9 || parseInt(value, 10) < 1) {
         event.target.value = '';
+      } else {
+        let indexes = event.target.id.replace('cell', '').split('');
+        if (indexes.length < 2) {
+          return;
+        }
+        let i = parseInt(indexes[0]);
+        let j = parseInt(indexes[1]);
+        if (j < 8) {
+          j++;
+        } else {
+          if (i < 8) {
+            i++;
+            j = 0;
+          } else {
+            i = 0;
+            j = 0;
+          }
+        }
+        let cellId = 'cell' + i + j;
+        document.getElementById(cellId).focus();
       }
     }
 
@@ -605,13 +627,32 @@
 
       //   check if the grid has any illegal entry already
       if (!isGridLegal(grid)) {
-        alert('Illegal grid!');
+        if (Swal) {
+          Swal.fire({
+            title: 'Error!',
+            text: 'The grid contains illegal input. Please correct all inputs.',
+            icon: 'error'
+          });
+        } else {
+          alert('Illegal grid!');
+        }
         return;
       }
 
       let solvedGrid = solveGrid(grid);
       if (!solvedGrid) {
-        alert('Unable to find any solution!');
+        if (Swal) {
+          Swal.fire({
+            title: 'Error!',
+            text:
+              'Unable to find any solution. Please correct all inputs and try again.',
+            icon: 'error'
+          });
+        } else {
+          alert(
+            'Unable to find any solution. Please correct all inputs and try again.'
+          );
+        }
         return;
       }
 
