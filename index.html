@@ -366,6 +366,27 @@
   </body>
 
   <script>
+    // onclick listener on solve button
+    document
+      .getElementById('btn-solve')
+      .addEventListener('click', onClickSolve);
+
+    // onclick listener on reset button
+    document
+      .getElementById('btn-reset')
+      .addEventListener('click', onClickReset);
+
+    // add onKeyUp listener to all input fields
+    // and check of valid number input only
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        let cellId = 'cell' + i + j;
+        document
+          .getElementById(cellId)
+          .addEventListener('keyup', onChangeInput);
+      }
+    }
+
     // check if all numbers in the array are unique or zero
     function isUniq(arr) {
       let copyArr = [...arr];
@@ -396,7 +417,7 @@
           return false;
         }
       }
-      // check 3x3 squar wise
+      // check 3x3 square wise
       for (let i = 0; i < 9; i += 3) {
         for (let j = 0; j < 9; j += 3) {
           let cells = [];
@@ -537,25 +558,19 @@
       }
     }
 
-    // onclick listener on solve button
-    document
-      .getElementById('btn-solve')
-      .addEventListener('click', onClickSolve);
-
-    // onclick listener on reset button
-    document
-      .getElementById('btn-reset')
-      .addEventListener('click', onClickReset);
-
-    // add onKeyUp listener to all input fields
-    // and check of valid number input only
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        let cellId = 'cell' + i + j;
-        document
-          .getElementById(cellId)
-          .addEventListener('keyup', onChangeInput);
-      }
+    // register the service worker
+    if ('serviceWorker' in navigator) {
+      console.log('CLIENT: service worker registration in progress.');
+      navigator.serviceWorker.register('/service-worker.js').then(
+        function() {
+          console.log('CLIENT: service worker registration complete.');
+        },
+        function() {
+          console.log('CLIENT: service worker registration failure.');
+        }
+      );
+    } else {
+      console.log('CLIENT: service worker is not supported.');
     }
   </script>
 </html>
