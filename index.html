@@ -555,9 +555,13 @@
         for (let j = 0; j < 9; j++) {
           // check if grid is empty at i, j position
           if (grid[i][j] === 0) {
-            for (let k = 1; k < 10; k++) {
-              if (isPossible(i, j, k, grid)) {
-                grid[i][j] = k;
+            let max = 9;
+            let min = 1;
+            let s = Math.floor(Math.random() * (max - min + 1)) + min;
+            for (let k = 0; k < 9; k++) {
+              let c = ((k + s) % 9) + 1;
+              if (isPossible(i, j, c, grid)) {
+                grid[i][j] = c;
                 let newGrid = solveGrid(grid);
                 // if current choice of value k is incorrect
                 // then subsequent solveGrid function call
@@ -631,7 +635,7 @@
           Swal.fire({
             title: 'Error!',
             text: 'The grid contains illegal input. Please correct all inputs.',
-            icon: 'error'
+            icon: 'error',
           });
         } else {
           alert('Illegal grid!');
@@ -646,7 +650,7 @@
             title: 'Error!',
             text:
               'Unable to find any solution. Please correct all inputs and try again.',
-            icon: 'error'
+            icon: 'error',
           });
         } else {
           alert(
@@ -679,10 +683,10 @@
     if ('serviceWorker' in navigator) {
       console.log('CLIENT: service worker registration in progress.');
       navigator.serviceWorker.register('/sudoku-master/service-worker.js').then(
-        function() {
+        function () {
           console.log('CLIENT: service worker registration complete.');
         },
-        function() {
+        function () {
           console.log('CLIENT: service worker registration failure.');
         }
       );

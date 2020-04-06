@@ -1,40 +1,40 @@
 const CACHE_NAME = 'Sudoku_Master';
-const CACHE_VERSION = 'v1.0.1';
+const CACHE_VERSION = 'v1.0.2';
 const resources = [
   '/sudoku-master/',
   '/sudoku-master/index.html',
-  '/sudoku-master/manifest.json'
+  '/sudoku-master/manifest.json',
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', function (event) {
   console.log('WORKER: install event in progress.');
   event.waitUntil(
     caches
       .open(CACHE_NAME + CACHE_VERSION)
-      .then(function(cache) {
+      .then(function (cache) {
         return cache.addAll(resources);
       })
-      .then(function() {
+      .then(function () {
         console.log('WORKER: install completed');
       })
   );
 });
 
-self.addEventListener('activate', function(event) {
+self.addEventListener('activate', function (event) {
   console.log('WORKER: activate event in progress.');
 
   event.waitUntil(
     caches
       .keys()
-      .then(function(keys) {
+      .then(function (keys) {
         // We return a promise that settles when all outdated caches are deleted.
         return Promise.all(
           keys
-            .filter(function(key) {
+            .filter(function (key) {
               // Filter by keys that don't start with the latest version.
               return key.indexOf(CACHE_VERSION) < 0;
             })
-            .map(function(key) {
+            .map(function (key) {
               /* Return a promise that's fulfilled
                    when each outdated cache is deleted.
                 */
@@ -42,13 +42,13 @@ self.addEventListener('activate', function(event) {
             })
         );
       })
-      .then(function() {
+      .then(function () {
         console.log('WORKER: activate completed.');
       })
   );
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   console.log('WORKER: fetch event in progress.');
 
   /* We should only cache GET requests, and deal with the rest of method in the
@@ -74,7 +74,7 @@ self.addEventListener('fetch', function(event) {
            to the fetch request.
         */
       .match(event.request)
-      .then(function(cached) {
+      .then(function (cached) {
         /* Even if the response is in our cache, we go to the network as well.
              This pattern is known for producing "eventually fresh" responses,
              where we return cached responses immediately, and meanwhile pull
@@ -119,7 +119,7 @@ self.addEventListener('fetch', function(event) {
                 */
               cache.put(event.request, cacheCopy);
             })
-            .then(function() {
+            .then(function () {
               console.log(
                 'WORKER: fetch response stored in cache.',
                 event.request.url
@@ -157,8 +157,8 @@ self.addEventListener('fetch', function(event) {
             status: 503,
             statusText: 'Service Unavailable',
             headers: new Headers({
-              'Content-Type': 'text/html'
-            })
+              'Content-Type': 'text/html',
+            }),
           });
         }
       })
